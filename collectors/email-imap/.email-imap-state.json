@@ -2,9 +2,9 @@
   "accounts": {
     "zbhth51@163.com|INBOX": {
       "initialized": true,
-      "lastUid": 1511352056,
-      "updatedAt": "2026-07-02T03:21:27.287Z",
-      "lastStatus": "ingested: 【ゲームクラブ】 即日対応ポケモンHOME 全国図鑑1025種(第1世代〜第10世代/藍の円盤/ZA対応)にレビューされました。"
+      "lastUid": 1511352058,
+      "updatedAt": "2026-07-02T05:28:46.750Z",
+      "lastStatus": "ingested: 【ゲームクラブ】 【即対応】HOME全1025種/ZA・チャンピオン向け/歴代配布1200体超にメッセージが届いています。"
     },
     "rukwzg@163.com|INBOX": {
       "initialized": true,
@@ -26,8 +26,8 @@
     },
     "dsmxw20@163.com|INBOX": {
       "initialized": true,
-      "lastUid": 1675965513,
-      "updatedAt": "2026-07-02T05:13:58.060Z",
+      "lastUid": 1675965521,
+      "updatedAt": "2026-07-02T05:31:26.130Z",
       "lastStatus": "ingested: 转发: 【ゲームトレード】運営からのお知らせ"
     }
   }
