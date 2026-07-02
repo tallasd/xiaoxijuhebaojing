@@ -400,9 +400,9 @@ textarea {
 
 .message-row {
   display: grid;
-  gap: 8px;
+  gap: 7px;
   width: 100%;
-  padding: 13px 14px;
+  padding: 14px 16px;
   border: 0;
   border-bottom: 1px solid #e7edf3;
   background: #ffffff;
@@ -452,10 +452,9 @@ textarea {
   box-shadow: inset 3px 0 0 #0f766e;
 }
 
-.message-row-top,
-.message-row-bottom,
-.message-main {
-  display: flex;
+.message-row-top {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   min-width: 0;
   gap: 8px;
@@ -465,13 +464,35 @@ textarea {
   white-space: nowrap;
 }
 
-.row-time {
-  margin-left: auto;
-  color: #687585;
-  font-size: 12px;
+.message-row-top .muted {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.message-main p {
+.row-time {
+  color: #687585;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.message-main {
+  display: grid;
+  grid-template-columns: minmax(92px, 142px) minmax(0, 1fr);
+  align-items: center;
+  min-width: 0;
+  gap: 10px;
+}
+
+.message-customer {
+  overflow: hidden;
+  color: #1f2933;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.message-preview {
   margin: 0;
   overflow: hidden;
   color: #273747;
@@ -479,15 +500,11 @@ textarea {
   white-space: nowrap;
 }
 
-.message-main span {
-  max-width: 110px;
-  overflow: hidden;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .message-row-bottom {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 8px;
   flex-wrap: wrap;
   color: #657285;
   font-size: 12px;
@@ -1104,6 +1121,15 @@ textarea {
 
   .quality-alert-row p {
     grid-column: auto;
+  }
+
+  .message-row-top,
+  .message-main {
+    grid-template-columns: 1fr;
+  }
+
+  .row-time {
+    justify-self: start;
   }
 
   .timeline-item,

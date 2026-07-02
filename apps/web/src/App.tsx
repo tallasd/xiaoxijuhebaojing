@@ -4,7 +4,6 @@ import {
   AlertTriangle,
   Bell,
   CheckCircle2,
-  ChevronRight,
   ClipboardCheck,
   Clock3,
   ExternalLink,
@@ -116,6 +115,85 @@ function minutesAgo(value: string) {
 
 function badgeClass(base: string, value: string) {
   return `${base} ${base}-${value.toLowerCase()}`;
+}
+
+function normalizePreviewText(value: string) {
+  return value
+    .replace(/\[[^\]]*https?:\/\/[^\]]+\]/gi, " ")
+    .replace(/<https?:\/\/[^>\s]+>/gi, " ")
+    .replace(/https?:\/\/\S+/gi, " ")
+    .replace(/_{5,}/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function stripForwardedMailHeader(value: string) {
+  const subjectMarkers = ["主题:", "Subject:"];
+  let text = value;
+  subjectMarkers.forEach((marker) => {
+    const index = text.lastIndexOf(marker);
+    if (index >= 0) text = text.slice(index + marker.length).trim();
+  });
+  return text;
+}
+
+function firstPreviewMatch(text: string, patterns: RegExp[]) {
+  for (const pattern of patterns) {
+    const match = text.match(pattern);
+    if (match?.[0]) return normalizePreviewText(match[0]);
+  }
+  return "";
+}
+
+function cleanMailPreview(content: string, platformName: string) {
+  const key = platformKey(platformName);
+  let text = normalizePreviewText(stripForwardedMailHeader(content));
+
+  if (key.includes("gametrade")) {
+    text = text
+      .replace(/^【ゲームトレード】運営からのお知らせ\s*/i, "")
+      .replace(/^運営事務局からのお知らせ\s*/i, "")
+      .replace(/^[^。]{1,80}様\s*/, "")
+      .replace(/ゲームトレード事務局でございます。?/g, "")
+      .replace(/いつもご利用いただき、誠にありがとうございます。?/g, "")
+      .trim();
+
+    const matched = firstPreviewMatch(text, [
+      /取引中の.+?メッセージが届きましたことをお知らせいたします。/,
+      /出品中の.+?(?:コメント|質問)が届いております。/,
+      /[^。]{1,180}さんから(?:メッセージ|コメント|質問)が届(?:いております|きましたことをお知らせいたします)。/,
+      /[^。]{1,180}を購入しました。/,
+      /[^。]{1,180}代金の振込を確認しました。/
+    ]);
+    if (matched) return matched;
+
+    text = text.split(/こちらから確認する|ご不明点|お問い合わせ|※なお|このメール/)[0].trim();
+  }
+
+  if (key.includes("game club") || key.includes("gameclub")) {
+    text = text
+      .replace(/^ゲームクラブ\s*/i, "")
+      .replace(/^【ゲームクラブ】\s*/i, "")
+      .trim();
+
+    const matched = firstPreviewMatch(text, [
+      /[^。]{1,160}様から(?:取引チャット内に)?(?:メッセージ|質問)が届いておりますので、お知らせいたします。/,
+      /[^。]{1,180}(?:メッセージ|質問)が届いています。/,
+      /[^。]{1,160}決済方法を選択中です。/,
+      /[^。]{1,180}支払いが完了されましたら.+?お待ちください。/
+    ]);
+    if (matched) return matched.replace(/^【ゲームクラブ】\s*/i, "");
+
+    text = text
+      .split(/■取引情報|■商品情報|【取引チャットはこちらから】|【質問の回答はこちらから】|このメールはゲームクラブ/)[0]
+      .trim();
+  }
+
+  return text.split(/ご不明点|お問い合わせ|※なお|このメール/)[0].trim() || "暂无内容";
+}
+
+function messagePreview(message: Message) {
+  return cleanMailPreview(message.content, message.platform.name);
 }
 
 function platformKey(platformName: string) {
@@ -621,9 +699,8 @@ function App() {
                       <span className="row-time">{minutesAgo(message.detectedAt)}</span>
                     </div>
                     <div className="message-main">
-                      <span>{message.customerName ?? "未知客户"}</span>
-                      <ChevronRight size={14} />
-                      <p>{message.content}</p>
+                      <span className="message-customer">{message.customerName ?? "未知客户"}</span>
+                      <p className="message-preview">{messagePreview(message)}</p>
                     </div>
                     <div className="message-row-bottom">
                       <span className={badgeClass("risk", message.riskLevel)}>{riskLabel[message.riskLevel]}</span>
