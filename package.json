@@ -1,0 +1,26 @@
+{
+  "name": "xiaoxijuhe-message-hub",
+  "private": true,
+  "version": "0.1.0",
+  "description": "多平台电商客服消息聚合系统 MVP",
+  "workspaces": [
+    "apps/api",
+    "apps/web",
+    "collectors/email-imap",
+    "collectors/local-mail-relay",
+    "collectors/hub-mail-ingest"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w @xiaoxijuhe/api\" \"npm run dev -w @xiaoxijuhe/web\"",
+    "build": "npm run build --workspaces --if-present",
+    "db:push": "npm run db:push -w @xiaoxijuhe/api",
+    "db:seed": "npm run db:seed -w @xiaoxijuhe/api",
+    "db:phase1": "npm run db:phase1 -w @xiaoxijuhe/api",
+    "start": "npm run start -w @xiaoxijuhe/api",
+    "relay:local": "npm run dev -w @xiaoxijuhe/local-mail-relay",
+    "relay:hub": "npm run dev -w @xiaoxijuhe/hub-mail-ingest"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

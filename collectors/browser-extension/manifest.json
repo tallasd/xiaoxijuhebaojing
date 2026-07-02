@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "客服消息网页采集器",
+  "version": "0.1.0",
+  "description": "监听网页标题、红点、未读数字和消息列表变化，并上报客服消息中台。",
+  "permissions": [
+    "storage",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "客服消息网页采集器",
+    "default_popup": "popup.html"
+  }
+}

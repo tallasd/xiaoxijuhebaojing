@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        width: 340px;
+        margin: 0;
+        padding: 12px;
+        font-family: "Microsoft YaHei", system-ui, sans-serif;
+        color: #1f2933;
+      }
+
+      label {
+        display: grid;
+        gap: 4px;
+        margin-bottom: 8px;
+        font-size: 12px;
+      }
+
+      input,
+      select {
+        min-height: 32px;
+        border: 1px solid #cbd5df;
+        border-radius: 6px;
+        padding: 0 8px;
+      }
+
+      button {
+        width: 100%;
+        min-height: 34px;
+        border: 0;
+        border-radius: 6px;
+        background: #0f766e;
+        color: #fff;
+      }
+
+      .secondary {
+        margin-top: 8px;
+        background: #1f2937;
+      }
+
+      .status {
+        min-height: 18px;
+        margin-top: 8px;
+        color: #526171;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <label>
+      快捷配置
+      <select id="preset"></select>
+    </label>
+    <label>
+      中台地址
+      <input id="hubApiUrl" />
+    </label>
+    <label>
+      采集器编号
+      <input id="collectorToken" />
+    </label>
+    <label>
+      平台
+      <input id="platform" />
+    </label>
+    <label>
+      店铺
+      <input id="shopName" />
+    </label>
+    <label>
+      站点
+      <input id="site" />
+    </label>
+    <label>
+      环境名称
+      <input id="deviceName" />
+    </label>
+    <label>
+      位置
+      <input id="location" />
+    </label>
+    <label>
+      巡检间隔（秒）
+      <input id="patrolIntervalSeconds" type="number" min="5" step="1" />
+    </label>
+    <button id="save">保存</button>
+    <button id="register" class="secondary">保存并登记到中台</button>
+    <div id="status" class="status"></div>
+    <script src="popup.js"></script>
+  </body>
+</html>

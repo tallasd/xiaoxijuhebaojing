@@ -1,0 +1,285 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String        @id @default(cuid())
+  name             String
+  role             Role
+  languageSkills   String?
+  status           String        @default("active")
+  createdAt        DateTime      @default(now())
+  assignedMessages Message[]     @relation("AssignedMessages")
+  ownedShops       ShopAccount[]
+  defaultPlatforms Platform[]
+  events           MessageEvent[]
+}
+
+model Platform {
+  id                String        @id @default(cuid())
+  name              String        @unique
+  type              String
+  country           String?
+  enabled           Boolean       @default(true)
+  defaultAssigneeId String?
+  defaultAssignee   User?         @relation(fields: [defaultAssigneeId], references: [id])
+  shops             ShopAccount[]
+  messages          Message[]
+  createdAt         DateTime      @default(now())
+}
+
+model ShopAccount {
+  id          String      @id @default(cuid())
+  platformId  String
+  platform    Platform    @relation(fields: [platformId], references: [id])
+  shopName    String
+  site        String?
+  ownerId     String?
+  owner       User?       @relation(fields: [ownerId], references: [id])
+  collectorId String?
+  collector   Collector?  @relation(fields: [collectorId], references: [id])
+  status      String      @default("正常")
+  riskNote    String?
+  createdAt   DateTime    @default(now())
+  messages    Message[]
+
+  @@unique([platformId, shopName, site])
+  @@index([ownerId])
+  @@index([collectorId])
+}
+
+model Collector {
+  id              String         @id @default(cuid())
+  token           String         @unique
+  name            String
+  deviceName      String
+  deviceType      String
+  location        String?
+  ipNote          String?
+  status          String         @default("离线")
+  lastHeartbeatAt DateTime?
+  createdAt       DateTime       @default(now())
+  shops           ShopAccount[]
+  logs            CollectorLog[]
+}
+
+model Message {
+  id                String        @id @default(cuid())
+  platformId        String
+  platform          Platform      @relation(fields: [platformId], references: [id])
+  shopAccountId     String?
+  shopAccount       ShopAccount?  @relation(fields: [shopAccountId], references: [id])
+  customerName      String?
+  customerId        String?
+  conversationId    String?
+  orderId           String?
+  productName       String?
+  content           String
+  rawContent        String?
+  translatedContent String?
+  summary           String?
+  sourceType        SourceType
+  sourceUrl         String?
+  sourceExternalId  String?
+  fingerprint       String        @unique
+  messageType       String        @default("普通咨询")
+  priority          Priority      @default(P2)
+  riskLevel         RiskLevel     @default(LOW)
+  language          String?
+  status            MessageStatus @default(NEW)
+  assignedToId      String?
+  assignedTo        User?         @relation("AssignedMessages", fields: [assignedToId], references: [id])
+  viewedAt          DateTime?
+  receivedAt        DateTime?
+  detectedAt        DateTime      @default(now())
+  lastReplyAt       DateTime?
+  timeoutDeadline   DateTime?
+  tags              String?
+  duplicateCount    Int           @default(0)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  events            MessageEvent[]
+
+  @@index([platformId])
+  @@index([shopAccountId])
+  @@index([assignedToId])
+  @@index([priority])
+  @@index([status])
+  @@index([detectedAt])
+}
+
+model MessageEvent {
+  id         String         @id @default(cuid())
+  messageId  String
+  message    Message        @relation(fields: [messageId], references: [id])
+  actorId    String?
+  actor      User?          @relation(fields: [actorId], references: [id])
+  eventType  String
+  note       String?
+  fromStatus MessageStatus?
+  toStatus   MessageStatus?
+  createdAt  DateTime       @default(now())
+
+  @@index([messageId])
+  @@index([actorId])
+}
+
+model RiskRule {
+  id          String    @id @default(cuid())
+  name        String
+  language    String
+  keywords    String
+  priority    Priority
+  riskLevel   RiskLevel
+  messageType String
+  enabled     Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+}
+
+model AlertRule {
+  id             String   @id @default(cuid())
+  name           String
+  priority       Priority
+  firstSlaMinutes Int
+  escalateMinutes Int
+  channels       String
+  enabled        Boolean  @default(true)
+  createdAt      DateTime @default(now())
+}
+
+model CollectorLog {
+  id          String    @id @default(cuid())
+  collectorId String
+  collector   Collector @relation(fields: [collectorId], references: [id])
+  level       String
+  message     String
+  meta        String?
+  createdAt   DateTime  @default(now())
+
+  @@index([collectorId])
+}
+
+model ChatObservation {
+  id               String      @id @default(cuid())
+  platformId       String?
+  shopAccountId    String?
+  platformName     String
+  shopName         String
+  site             String?
+  conversationId   String
+  customerName     String?
+  speaker          ChatSpeaker
+  content          String
+  sourceUrl        String?
+  sourceExternalId String?     @unique
+  sentAt           DateTime?
+  detectedAt       DateTime    @default(now())
+  createdAt        DateTime    @default(now())
+
+  @@index([platformName])
+  @@index([shopName])
+  @@index([conversationId])
+  @@index([speaker])
+  @@index([detectedAt])
+}
+
+model QualityAlert {
+  id              String             @id @default(cuid())
+  fingerprint     String             @unique
+  observationId   String?
+  platformId      String?
+  shopAccountId   String?
+  platformName    String
+  shopName        String
+  conversationId  String
+  customerName    String?
+  alertType       QualityAlertType
+  severity        RiskLevel
+  title           String
+  detail          String
+  status          QualityAlertStatus @default(OPEN)
+  sourceUrl       String?
+  createdAt       DateTime           @default(now())
+  resolvedAt      DateTime?
+
+  @@index([platformName])
+  @@index([shopName])
+  @@index([conversationId])
+  @@index([alertType])
+  @@index([severity])
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum Role {
+  OWNER
+  SUPERVISOR
+  AGENT
+  OPS
+  TECH
+}
+
+enum SourceType {
+  EMAIL
+  WEB
+  DESKTOP_NOTIFICATION
+  MOBILE_NOTIFICATION
+  MANUAL
+  API
+}
+
+enum MessageStatus {
+  NEW
+  UNASSIGNED
+  ASSIGNED
+  IN_PROGRESS
+  REPLIED
+  WAITING_CUSTOMER
+  DONE
+  CLOSED
+  IGNORED
+  TIMEOUT
+  ESCALATED
+  MANUAL_REVIEW
+}
+
+enum Priority {
+  P0
+  P1
+  P2
+  P3
+  P4
+}
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ChatSpeaker {
+  CUSTOMER
+  AGENT
+  SYSTEM
+}
+
+enum QualityAlertType {
+  VIOLATION
+  SLOW_REPLY
+  PERFUNCTORY
+  MISSED_MESSAGE
+  RISK_WORD
+}
+
+enum QualityAlertStatus {
+  OPEN
+  ACKNOWLEDGED
+  RESOLVED
+  IGNORED
+}

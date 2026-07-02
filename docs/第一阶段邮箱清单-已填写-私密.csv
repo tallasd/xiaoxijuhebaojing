@@ -1,0 +1,10 @@
+﻿编号,用途,平台,店铺/账号,邮箱账号,服务商,IMAP服务器,IMAP端口,IMAP SSL,IMAP授权码状态,是否启用,是否接收未知邮件,备注
+001,平台消息接收,eBay,扬总 eBay,dsmxw20@163.com,网易163,imap.163.com,993,是,待获取IMAP授权码,是,否,此邮箱同时关联青瓜eBay、yukl eBay、可能还有GameTrade邮件，后续需要按邮件样本拆分
+002,平台消息接收,eBay,青瓜 eBay,dsmxw20@163.com,网易163,imap.163.com,993,是,待获取IMAP授权码,是,否,与扬总eBay共用邮箱，不能简单重复跑多个IMAP账号
+003,平台消息接收,eBay,yukl eBay,dsmxw20@163.com,网易163,imap.163.com,993,是,待获取IMAP授权码,是,否,与扬总eBay共用邮箱，不能简单重复跑多个IMAP账号
+004,平台消息接收,eBay,Winnie 的 eBay,dsmxwwangkang10@163.com,网易163,imap.163.com,993,是,待获取IMAP授权码,是,否,独立邮箱，适合直接配置到IMAP采集器
+005,平台消息接收,Game Club,老gc,jianz551@163.com,网易163,imap.163.com,993,是,待获取IMAP授权码,是,否,独立邮箱，适合直接配置到IMAP采集器
+006,平台消息接收,Game Club,gc2,rukwzg@163.com,网易163,imap.163.com,993,是,待获取IMAP授权码,是,否,独立邮箱，适合直接配置到IMAP采集器
+007,平台消息接收,Game Club,gc3,zbhth51@163.com,网易163,imap.163.com,993,是,待获取IMAP授权码,是,否,独立邮箱，适合直接配置到IMAP采集器
+008,平台消息接收,GameTrade/待拆分,所有GameTrade账号,dsmxw20@163.com,网易163,imap.163.com,993,是,待获取IMAP授权码,是,否,如果GameTrade邮件都进这个邮箱，先按多店铺待拆分处理
+

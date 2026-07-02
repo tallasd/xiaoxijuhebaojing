@@ -1,0 +1,21 @@
+﻿把 docs/邮箱清单.csv 填好以后，可以按下面这个格式转成邮箱采集器配置。
+
+第一阶段只需要先配 eBay 和 Game Club。
+
+单邮箱示例：
+
+MAIL_ACCOUNTS_JSON=[{"name":"Winnie 的 eBay","host":"imap.163.com","port":993,"secure":true,"user":"完整邮箱待填","pass":"IMAP授权码填这里","mailbox":"INBOX","defaultPlatform":"eBay","defaultSite":"US","defaultShop":"Winnie 的 eBay"}]
+
+多邮箱示例：
+
+MAIL_ACCOUNTS_JSON=[{"name":"Winnie 的 eBay","host":"imap.163.com","port":993,"secure":true,"user":"winnie@example.com","pass":"IMAP授权码","mailbox":"INBOX","defaultPlatform":"eBay","defaultSite":"US","defaultShop":"Winnie 的 eBay"},{"name":"老gc","host":"imap.163.com","port":993,"secure":true,"user":"old-gc@example.com","pass":"IMAP授权码","mailbox":"INBOX","defaultPlatform":"Game Club","defaultSite":"JP","defaultShop":"老gc"}]
+
+注意：
+- 这里用的是 IMAP 授权码，不是邮箱登录密码。
+- eBay 先按扬总 eBay、青瓜 eBay、yukl eBay、Winnie 的 eBay；Game Club 先按老gc、gc2、gc3。
+- 一个邮箱只对应一个店铺时，defaultShop 直接写店铺名。
+- 一个邮箱收多个店铺邮件时，defaultShop 先写“多店铺待拆分”，后面再按收件人、主题或正文规则细分。
+- INGEST_UNKNOWN=false 保持默认即可，避免网易安全提醒这类无关邮件进入中台。
+
+
+

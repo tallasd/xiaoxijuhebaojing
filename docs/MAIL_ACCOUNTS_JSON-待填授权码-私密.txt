@@ -1,0 +1,69 @@
+﻿这份是按你提供的邮箱整理出来的采集器配置草稿。
+注意：pass 里必须填 IMAP 授权码，不建议直接填邮箱登录密码。
+
+MAIL_ACCOUNTS_JSON=[
+  {
+    "name": "dsmxw20 多店铺邮箱",
+    "host": "imap.163.com",
+    "port": 993,
+    "secure": true,
+    "user": "dsmxw20@163.com",
+    "pass": "IMAP授权码待填",
+    "mailbox": "INBOX",
+    "defaultPlatform": "eBay",
+    "defaultSite": "US",
+    "defaultShop": "dsmxw20 多店铺待拆分"
+  },
+  {
+    "name": "Winnie 的 eBay",
+    "host": "imap.163.com",
+    "port": 993,
+    "secure": true,
+    "user": "dsmxwwangkang10@163.com",
+    "pass": "IMAP授权码待填",
+    "mailbox": "INBOX",
+    "defaultPlatform": "eBay",
+    "defaultSite": "US",
+    "defaultShop": "Winnie 的 eBay"
+  },
+  {
+    "name": "老gc",
+    "host": "imap.163.com",
+    "port": 993,
+    "secure": true,
+    "user": "jianz551@163.com",
+    "pass": "IMAP授权码待填",
+    "mailbox": "INBOX",
+    "defaultPlatform": "Game Club",
+    "defaultSite": "JP",
+    "defaultShop": "老gc"
+  },
+  {
+    "name": "gc2",
+    "host": "imap.163.com",
+    "port": 993,
+    "secure": true,
+    "user": "rukwzg@163.com",
+    "pass": "IMAP授权码待填",
+    "mailbox": "INBOX",
+    "defaultPlatform": "Game Club",
+    "defaultSite": "JP",
+    "defaultShop": "gc2"
+  },
+  {
+    "name": "gc3",
+    "host": "imap.163.com",
+    "port": 993,
+    "secure": true,
+    "user": "zbhth51@163.com",
+    "pass": "IMAP授权码待填",
+    "mailbox": "INBOX",
+    "defaultPlatform": "Game Club",
+    "defaultSite": "JP",
+    "defaultShop": "gc3"
+  }
+]
+
+dsmxw20@163.com 是多店铺共用邮箱，不要为每个店铺重复配置同一个 IMAP 账号，否则同一封邮件会被重复读取。
+先用“dsmxw20 多店铺待拆分”接入，等拿到几封邮件样本后，再按邮件主题、发件人、收件人或正文特征做自动拆分。
+

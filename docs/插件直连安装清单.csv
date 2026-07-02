@@ -1,0 +1,9 @@
+﻿编号,平台/环境,店铺/环境名称,插件快捷配置,采集器编号,中台地址,巡检间隔,是否必须安装,备注
+001,Shopee TW,Shopee 台湾店1,Shopee 台湾店1,collector-shopee-tw-01,http://127.0.0.1:4100,30秒,是,装在这个店铺所在的云端浏览器里
+002,Shopee TW,Shopee 台湾店2,Shopee 台湾店2,collector-shopee-tw-02,http://127.0.0.1:4100,30秒,是,装在这个店铺所在的云端浏览器里
+003,Shopee TW,Shopee 台湾店3,Shopee 台湾店3,collector-shopee-tw-03,http://127.0.0.1:4100,30秒,是,装在这个店铺所在的云端浏览器里
+004,Shopee TW,Shopee 台湾店4,Shopee 台湾店4,collector-shopee-tw-04,http://127.0.0.1:4100,30秒,是,装在这个店铺所在的云端浏览器里
+005,Shopee MY,Shopee 马来店1,Shopee 马来店1,collector-shopee-my-01,http://127.0.0.1:4100,30秒,是,装在这个店铺所在的云端浏览器里
+006,Discord,Discord 环境1,Discord 环境1,collector-discord-01,http://127.0.0.1:4100,30秒,是,装在这个聊天环境所在浏览器里
+007,Discord,Discord 环境2,Discord 环境2,collector-discord-02,http://127.0.0.1:4100,30秒,是,装在这个聊天环境所在浏览器里
+
